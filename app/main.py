@@ -136,7 +136,7 @@ async def app_health():
     return {"alive": True}
 
 
-@poap_api.get("/isEligible/{event_id}/{to_address}")
+@poap_api.get("/isEligible/{event_id}/{to_address}", tags=["POAP Minting"])
 async def is_eligible(
     event_id: int,
     to_address: str,
