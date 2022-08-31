@@ -79,8 +79,7 @@ class DevconEvent(wen_poap.EventABC):
         nct_amount = Web3.fromWei(nct_amount_wei, "ether")
         if nct_amount >= self.min_nct_contribution:
             return True
-        else:
-            return False
+        return False
 
 
 events = {}
