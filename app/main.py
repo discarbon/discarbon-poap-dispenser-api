@@ -159,7 +159,6 @@ async def is_eligible(
         "is_eligible": is_eligible,
         "address": to_address,
         "event_id": event_id,
-        "message": f"address {to_address} is eligible for poap drop {event_id}",
     }
 
 
