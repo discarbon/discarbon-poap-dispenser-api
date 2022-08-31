@@ -1,0 +1,9 @@
+fastapi[all]
+gunicorn
+pydantic
+packaging
+python-dotenv
+PyYAML
+requests
+uvicorn
+web3

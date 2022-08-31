@@ -1,3 +1,6 @@
+# App-specific:
+poap_oauth_token.pkl
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

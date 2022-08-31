@@ -1,0 +1,44 @@
+{
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.cwd": "./",
+  "python.linting.enabled": true,
+  "python.linting.cwd": "./app",
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.mypyEnabled": false,
+  "python.linting.mypyArgs": ["--strict"],
+  "python.formatting.provider": "black",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.sortImports.args": [
+    "--profile=black",
+  ],
+  "[python]": {
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
+  },
+  "mypy.configFile": "./mypy.ini",
+  "mypy.runUsingActiveInterpreter": true,
+  "cSpell.words": [
+    "argsort",
+    "Autoformatting",
+    "Devcon",
+    "discarbon",
+    "dotenv",
+    "fastapi",
+    "geocoders",
+    "geolocator",
+    "geopy",
+    "iloc",
+    "isort",
+    "Nominatim",
+    "POAP",
+    "pydantic",
+    "pyenv",
+    "pytest",
+    "uvicorn",
+    "virtualenv",
+    "Vyncenty's"
+  ]
+}
