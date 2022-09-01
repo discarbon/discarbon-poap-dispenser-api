@@ -75,6 +75,7 @@ class DevconEvent(wen_poap.EventABC):
         """
         Check whether an address is eligible for the POAP.
         """
+        to_address = Web3.toChecksumAddress(to_address)
         nct_amount_wei = self.pooling_contract.functions.contributions(to_address).call()
         nct_amount = Web3.fromWei(nct_amount_wei, "ether")
         if nct_amount >= self.min_nct_contribution:
