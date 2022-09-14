@@ -164,6 +164,67 @@ async def is_eligible(
     }
 
 
+@poap_api.get("/hasCollected/{event_id}/{to_address}", tags=["POAP Minting"])
+async def has_collected(
+    event_id: int,
+    to_address: str,
+):
+    """
+    Return true if to_address has already collected the POAP for event_id,
+    false otherwise
+    """
+    if event_id not in events.keys():
+        return {"success": False, "message": f"error: event with id {event_id} is not configured"}
+    if not Web3.isAddress(to_address):
+        # TODO: allow ENS domain names (isAddress() only checks standard address formats
+        return {
+            "success": False,
+            "message": f"error: invalid Ethereum address {to_address} "
+            "(ENS domain names not currently supported)",
+        }
+    try:
+        has_collected = events[event_id].has_collected(to_address)
+    except Exception as e:
+        return {"success": False, "message": e}
+    return {
+        "success": True,
+        "has_collected": has_collected,
+        "address": to_address,
+        "event_id": event_id,
+    }
+
+
+@poap_api.get("/getCollectorStatus/{event_id}/{to_address}", tags=["POAP Minting"])
+async def get_collector_status(
+    event_id: int,
+    to_address: str,
+):
+    """
+    Return true if to_address has already collected the POAP for event_id,
+    false otherwise
+    """
+    if event_id not in events.keys():
+        return {"success": False, "message": f"error: event with id {event_id} is not configured"}
+    if not Web3.isAddress(to_address):
+        # TODO: allow ENS domain names (isAddress() only checks standard address formats
+        return {
+            "success": False,
+            "message": f"error: invalid Ethereum address {to_address} "
+            "(ENS domain names not currently supported)",
+        }
+    try:
+        collector_status = events[event_id].get_collector_status(to_address)
+    except Exception as e:
+        return {"success": False, "message": e}
+    return {
+        "success": True,
+        "address": to_address,
+        "event_id": event_id,
+        "collector_status_text": collector_status.value,
+        "collector_status": collector_status.name,
+    }
+
+
 @poap_api.get(
     "/mint/{event_id}/{to_address}",
     tags=["POAP Minting"],

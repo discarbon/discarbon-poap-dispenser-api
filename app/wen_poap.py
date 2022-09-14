@@ -4,8 +4,19 @@ import sys
 import time
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
+from enum import Enum
 
 import requests
+
+
+class CollectorStatus(str, Enum):
+    """
+    Enum class describing a collector's (an address') event status.
+    """
+
+    is_not_eligible = "address not eligible for the event"
+    is_eligible = "address is eligible for the event, but has not collected"
+    has_collected = "address has collected the POAP for the event"
 
 
 class PoapApiWrapper:
@@ -125,6 +136,29 @@ class EventABC(ABC):
         EventABC.
         """
         pass
+
+    def has_collected(self, address: str) -> bool:
+        """
+        Check whether an address has already collected (minted) this event's POAP.
+        """
+        response = self.poap_api.get(f"actions/scan/{address}/{self.event_id}", protected=False)
+        if response.status_code == 404:
+            return False
+        if response.status_code == 200:
+            return True
+        raise Exception(
+            f"Unexpected status code: {response.status_code}, {response.reason}, {response.text}"
+        )
+
+    def get_collector_status(self, address: str) -> CollectorStatus:
+        try:
+            if self.has_collected(address):
+                return CollectorStatus.has_collected
+            if not self.is_eligible(address):
+                return CollectorStatus.is_not_eligible
+        except Exception as e:
+            raise Exception(f"Unexpected error: {e}")
+        return CollectorStatus.is_eligible
 
     def is_valid_event(self) -> bool:
         response = self.validate_event()
