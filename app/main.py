@@ -184,6 +184,7 @@ async def mint_poap(
             "message": f"error: invalid Ethereum address {to_address} "
             "(ENS domain names not currently supported)",
         }
+    to_address = Web3.toChecksumAddress(to_address)
     try:
         response = events[event_id].mint_poap(to_address)
     except Exception as e:
