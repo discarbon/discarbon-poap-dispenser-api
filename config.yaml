@@ -5,3 +5,18 @@ discarbon_poap_dispenser_api:
         contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
         contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
         min_nct_contribution: 0.1
+    - id: 62944
+      eligibility:
+        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
+        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
+        min_nct_contribution: 0.0001
+    - id: 65132
+      eligibility:
+        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
+        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
+        min_nct_contribution: 0.0001
+    - id: 62477
+      eligibility:
+        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
+        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
+        min_nct_contribution: 0.0001

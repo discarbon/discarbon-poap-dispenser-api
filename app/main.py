@@ -109,7 +109,8 @@ async def startup_event():
     for event_config in config["discarbon_poap_dispenser_api"]["events"]:
         event_id = event_config["id"]
         event_secret = os.environ.get(f"SECRET_EVENT_{event_id}")
-        if event_id == 45486:
+        print("Configuring...", event_id)
+        if event_id in [45486, 62944, 65132, 62477]:
             events[event_id] = DevconEvent(poap_api, event_id, event_secret, config=event_config)
 
 
