@@ -189,11 +189,35 @@ async def mint_poap(
         response = events[event_id].mint_poap(to_address)
     except Exception as e:
         return {"success": False, "message": e}
-    if ("statusCode" in response.content) and (response.content["statusCode"] != 200):
-        response.content["success"] = False
-        return json.dumps(response.content)
-    response.content["success"] = True
-    return json.dumps(response.content)
+    return response
+
+
+@poap_api.get(
+    "/mintWithEligibilityTimeout/{event_id}/{to_address}",
+    tags=["POAP Minting"],
+)
+async def mint_poap_with_eligibility_timeout(
+    event_id: int,
+    to_address: str,
+):
+    """
+    Mint a POAP from event specified by mint_id to to_address, if eligible.
+    """
+    if event_id not in events.keys():
+        return {"success": False, "message": f"error: event with id {event_id} is not configured"}
+    if not Web3.isAddress(to_address):
+        # TODO: allow ENS domain names (isAddress() only checks standard address formats
+        return {
+            "success": False,
+            "message": f"error: invalid Ethereum address {to_address} "
+            "(ENS domain names not currently supported)",
+        }
+    to_address = Web3.toChecksumAddress(to_address)
+    try:
+        response = events[event_id].wait_to_be_eligible_and_mint_poap(to_address, timeout=90)
+    except Exception as e:
+        return {"success": False, "message": str(e)}
+    return response
 
 
 @poap_api.get(

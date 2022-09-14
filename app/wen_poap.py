@@ -1,6 +1,7 @@
 import json
 import pickle
 import sys
+import time
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 
@@ -152,24 +153,67 @@ class EventABC(ABC):
         # TODO: check current data not past expiry date.
         return content["secret"]
 
-    def claim_qr(self, qr_code: str, qr_secret: str, to_address: str) -> dict:
+    def claim_qr(self, qr_code: str, qr_secret: str, to_address: str) -> requests.Response:
         payload = {"address": to_address, "qr_hash": qr_code, "secret": qr_secret}
         response = self.poap_api.post("actions/claim-qr", payload)
-        return json.loads(response.content)
+        return response
 
-    def mint_poap(self, to_address: str) -> dict:
+    def mint_poap(self, to_address: str):
         if not self.is_eligible(to_address):
             return {
-                "message": f"the address {to_address} is not eligible for poap drop "
-                f"{self.event_id}"
+                "success": False,
+                "message": (
+                    f"the address {to_address} is not eligible for the poap from the "
+                    f"event id {self.event_id}",
+                ),
+            }
+        if self.has_collected(to_address):
+            return {
+                "success": False,
+                "message": (
+                    f"the address {to_address} has already collected the poap for "
+                    f"event id {self.event_id}"
+                ),
             }
         if not self.qr_codes:
             return {
-                "message": "this event has no run out of claim codes, please inform the organizers"
+                "success": False,
+                "message": (
+                    f"this event {self.event_id} has no run out of claim codes, "
+                    "please inform the organizers"
+                ),
             }
         qr_code = self.qr_codes.pop()
         qr_secret = self.claim_qr_get_secret(qr_code)
-        response = self.claim_qr(qr_code, qr_secret, to_address)
+        poap_response = self.claim_qr(qr_code, qr_secret, to_address)
+        print(poap_response)
+        if poap_response.status_code != 200:  # 500 already minted?
+            return {
+                "success": False,
+                "poap_api_response": poap_response,
+                "message": (
+                    f"Unexpected status code whilst minting: {poap_response.status_code}: "
+                    f"{poap_response.reason}, {poap_response.text}"
+                ),
+            }
+        poap_response_content = json.loads(poap_response.content)
+        return {
+            "success": True,
+            "message": "POAP successfully minted",
+            "poap_api_response": poap_response.content.decode("utf-8"),
+            "token_id": poap_response_content["id"],
+            "uuid": poap_response_content["queue_uid"],
+        }
+
+    def wait_to_be_eligible_and_mint_poap(self, to_address: str, timeout: int):
+        t0 = time.time()
+        while True:
+            if self.is_eligible(to_address):
+                response = self.mint_poap(to_address)
+                break
+            if time.time() > t0 + timeout:
+                raise Exception(f"Address not eligible within {timeout}s")
+            time.sleep(4.0)
         return response
 
     def get_mint_status(self, uid: str) -> dict:
