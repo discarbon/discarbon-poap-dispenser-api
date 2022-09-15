@@ -47,11 +47,13 @@ poap_api = FastAPI(
     },
     openapi_tags=tags_metadata,
 )
-
+"""
 origins = [
     "https://localhost",
     "https://event-offset-dev.discarbon.earth/",
 ]
+"""
+origins = ["*"]
 
 poap_api.add_middleware(
     CORSMiddleware,
