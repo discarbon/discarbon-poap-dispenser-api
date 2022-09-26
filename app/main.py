@@ -310,6 +310,37 @@ async def mint_poap_with_eligibility_timeout(
 
 
 @poap_api.get(
+    "/waitForMintWithTimeout/{event_id}/{uuid}",
+    tags=["POAP Minting"],
+)
+async def wait_for_mint_with_timeout(
+    event_id: int,
+    uuid: str,
+):
+    """
+    Get the current minting status.
+
+    Comment: poap api return status code upon invalid uuid, but not if the uuid is valid.
+    """
+    try:
+        content = events[event_id].wait_for_mint_tx_hash(uuid)
+    except Exception as e:
+        return {"success": False, "message": e}
+    if ("statusCode" in content) and (content["statusCode"] != 200):
+        content["success"] = False
+        return content
+    operation = content["operation"]
+    if operation != "mintToken":
+        return {"success": False, "message": f'uid operation ({operation}) is not "mintToken"'}
+    return {
+        "success": True,
+        "uid": uuid,
+        "mint_status": content["status"],
+        "tx_hash": content["result"]["tx_hash"],
+    }
+
+
+@poap_api.get(
     "/getMintStatus/{event_id}/{uuid}",
     tags=["POAP Minting"],
 )

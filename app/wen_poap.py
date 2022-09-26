@@ -236,7 +236,7 @@ class EventABC(ABC):
             "message": "POAP successfully minted",
             "poap_api_response": poap_response.content.decode("utf-8"),
             "token_id": poap_response_content["id"],
-            "uuid": poap_response_content["queue_uid"],
+            "uid": poap_response_content["queue_uid"],
         }
 
     def wait_to_be_eligible_and_mint_poap(self, to_address: str, timeout: int):
@@ -248,6 +248,20 @@ class EventABC(ABC):
             if time.time() > t0 + timeout:
                 raise Exception(f"Address not eligible within {timeout}s")
             time.sleep(4.0)
+        return response
+
+    def wait_for_mint_tx_hash(self, uid: str) -> dict:
+        mint_timeout = 15
+        t0 = time.time()
+        while True:
+            # TODO: check for bad response
+            response = self.get_mint_status(uid)
+            print(response)
+            if response["status"] == "FINISH":
+                break
+            time.sleep(1.0)
+            if time.time() > t0 + mint_timeout:
+                raise Exception(f"POAP did not mint within {mint_timeout}s")
         return response
 
     def get_mint_status(self, uid: str) -> dict:
