@@ -19,4 +19,4 @@ discarbon_poap_dispenser_api:
       eligibility:
         contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
         contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
-        min_nct_contribution: 0.5
+        min_nct_contribution: 0.299
