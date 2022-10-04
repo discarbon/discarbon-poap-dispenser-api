@@ -177,7 +177,7 @@ async def get_remaining_code_count(
     try:
         code_count = events[event_id].get_remaining_code_count()
     except Exception as e:
-        return {"success": False, "message": e}
+        return {"success": False, "message": str(e)}
     return {
         "success": True,
         "count": code_count,
@@ -202,7 +202,10 @@ async def is_eligible(
             "message": f"error: invalid Ethereum address {to_address} "
             "(ENS domain names not currently supported)",
         }
-    is_eligible = events[event_id].is_eligible(to_address)
+    try:
+        is_eligible = events[event_id].is_eligible(to_address)
+    except Exception as e:
+        return {"success": False, "message": str(e)}
     return {
         "success": True,
         "is_eligible": is_eligible,
@@ -232,7 +235,7 @@ async def has_collected(
     try:
         has_collected = events[event_id].has_collected(to_address)
     except Exception as e:
-        return {"success": False, "message": e}
+        return {"success": False, "message": str(e)}
     return {
         "success": True,
         "has_collected": has_collected,
@@ -262,7 +265,7 @@ async def get_collector_status(
     try:
         collector_status = events[event_id].get_collector_status(to_address)
     except Exception as e:
-        return {"success": False, "message": e}
+        return {"success": False, "message": str(e)}
     return {
         "success": True,
         "address": to_address,
@@ -296,7 +299,7 @@ async def mint_poap(
     try:
         response = events[event_id].mint_poap(to_address)
     except Exception as e:
-        return {"success": False, "message": e}
+        return {"success": False, "message": str(e)}
     return response
 
 
