@@ -179,8 +179,13 @@ class EventABC(ABC):
 
     def validate_event(self) -> dict:
         payload = {"event_id": self.event_id, "secret_code": self.event_secret}
-        response = self.poap_api.post("event/validate", payload)
-        return json.loads(response.content)
+        poap_response = self.poap_api.post("event/validate", payload)
+        if poap_response.status_code != 200:
+            raise Exception(
+                f"Unexpected status code validating event: {poap_response.status_code}: "
+                f"{poap_response.reason}, {poap_response.text}"
+            )
+        return json.loads(poap_response.content)
 
     def update_unclaimed_qr_codes(self) -> None:
         payload = {"secret_code": self.event_secret}
