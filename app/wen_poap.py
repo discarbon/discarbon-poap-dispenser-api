@@ -232,7 +232,6 @@ class EventABC(ABC):
         qr_code = self.qr_codes.pop()
         qr_secret = self.claim_qr_get_secret(qr_code)
         poap_response = self.claim_qr(qr_code, qr_secret, to_address)
-        print(poap_response)
         if poap_response.status_code != 200:  # 500 already minted?
             return {
                 "success": False,
@@ -266,9 +265,9 @@ class EventABC(ABC):
         mint_timeout = 15
         t0 = time.time()
         while True:
-            # TODO: check for bad response
-            response = self.get_mint_status(uid)
-            print(response)
+            poap_response = self.get_uid_status(uid)
+
+            response = json.loads(poap_response.content)
             if response["status"] == "FINISH":
                 break
             time.sleep(1.0)
@@ -276,6 +275,11 @@ class EventABC(ABC):
                 raise Exception(f"POAP did not mint within {mint_timeout}s")
         return response
 
-    def get_mint_status(self, uid: str) -> dict:
-        response = self.poap_api.get(f"queue-message/{uid}", protected=False)
-        return json.loads(response.content)
+    def get_uid_status(self, uid: str) -> requests.Response:
+        poap_response = self.poap_api.get(f"queue-message/{uid}", protected=False)
+        if poap_response.status_code != 200:  # 500 already minted?
+            raise Exception(
+                f"Unexpected status code: {poap_response.status_code}: "
+                f"{poap_response.reason}, {poap_response.text}"
+            )
+        return poap_response
