@@ -125,7 +125,19 @@ class EventABC(ABC):
         assert (
             self.is_valid_event()
         ), f"event/validate claims the event with id {event_id} is not valid."
+        self.qr_codes = None
         self.update_unclaimed_qr_codes()
+
+    def get_remaining_code_count(self) -> int:
+        """
+        Return the number of unclaimed codes remaining for the event
+        """
+        if self.qr_codes is None:
+            raise Exception(
+                "Event `qr_codes` object is not initialized, call "
+                "`update_unclaimed_qr_codes()` first"
+            )
+        return len(self.qr_codes)
 
     @abstractmethod
     def is_eligible(self, address: str) -> bool:

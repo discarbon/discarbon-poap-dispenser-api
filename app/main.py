@@ -165,6 +165,25 @@ async def app_health():
     return {"alive": True}
 
 
+@poap_api.get("/getRemainingCodeCount/{event_id}", tags=["POAP Minting"])
+async def get_remaining_code_count(
+    event_id: int,
+):
+    """
+    Return the number of unclaimed codes for the specified event.
+    """
+    if event_id not in events.keys():
+        return {"success": False, "message": f"error: event with id {event_id} is not configured"}
+    try:
+        code_count = events[event_id].get_remaining_code_count()
+    except Exception as e:
+        return {"success": False, "message": e}
+    return {
+        "success": True,
+        "count": code_count,
+    }
+
+
 @poap_api.get("/isEligible/{event_id}/{to_address}", tags=["POAP Minting"])
 async def is_eligible(
     event_id: int,
