@@ -138,7 +138,7 @@ async def startup_event():
         event_id = event_config["id"]
         event_secret = os.environ.get(f"SECRET_EVENT_{event_id}")
         print("Configuring...", event_id)
-        if event_id in [45486, 62944, 65132, 62477]:
+        if event_id in [62477, 71182, 71937]:
             events[event_id] = DevconEvent(poap_api, event_id, event_secret, config=event_config)
 
 

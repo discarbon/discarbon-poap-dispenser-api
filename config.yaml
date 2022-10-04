@@ -1,22 +1,17 @@
 discarbon_poap_dispenser_api:
   events:
-    - id: 45486
-      eligibility:
-        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
-        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
-        min_nct_contribution: 0.1
-    - id: 62944
-      eligibility:
-        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
-        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
-        min_nct_contribution: 0.0001
-    - id: 65132
-      eligibility:
-        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
-        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
-        min_nct_contribution: 0.02
     - id: 62477
       eligibility:
         contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
         contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
+        min_nct_contribution: 0.299
+    - id: 71182
+      eligibility:
+        contract_address: "0x2608cDFCAe67d96A120bba7407d75c1F871221f6"
+        contract_abi_filename: "resources/45486/Pooling_0x2608cDFCAe67d96A120bba7407d75c1F871221f6.json"
+        min_nct_contribution: 0.02
+    - id: 71937
+      eligibility:
+        contract_address: "0xb6A5D547d0A325Ffa0357E2698eB76E165b606BA"
+        contract_abi_filename: "resources/71937/Devcon_Offset_Pool_0xb6A5D547d0A325Ffa0357E2698eB76E165b606BA.json"
         min_nct_contribution: 0.299
