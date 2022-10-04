@@ -358,6 +358,7 @@ async def wait_for_mint_with_timeout(
         "uid": uid,
         "mint_status": content["status"],
         "tx_hash": content["result"]["tx_hash"],
+        "message": "Successfully retrieved mint transaction hash",
     }
 
 
@@ -388,4 +389,5 @@ async def get_mint_status(
         "uid": uid,
         "mint_status": content["status"],
         "tx_hash": content["result"]["tx_hash"],
+        "message": "Successfully retrieved mint transaction hash",
     }
