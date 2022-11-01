@@ -37,6 +37,7 @@
     "pydantic",
     "pyenv",
     "pytest",
+    "textposition",
     "uvicorn",
     "virtualenv",
     "Vyncenty's"
