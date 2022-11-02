@@ -15,3 +15,6 @@ discarbon_poap_dispenser_api:
         contract_address: "0xb6A5D547d0A325Ffa0357E2698eB76E165b606BA"
         contract_abi_filename: "resources/71937/Devcon_Offset_Pool_0xb6A5D547d0A325Ffa0357E2698eB76E165b606BA.json"
         min_nct_contribution: 0.299
+    - id: 79416
+      eligibility:
+        null
