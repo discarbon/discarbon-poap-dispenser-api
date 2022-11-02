@@ -3,7 +3,7 @@ A backend that verifies and issues POAPs via REST requests
 
 ## Development
 
-To start developing create a virtual environment and install the requirements (regular and devlopment) files:
+To start developing create a virtual environment and install the requirements (regular and development) files:
 ```
 python -m venv venv
 source venv/bin/activate
