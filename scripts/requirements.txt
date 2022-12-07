@@ -1,0 +1,4 @@
+pandas
+plotly
+python-dotenv
+web3
